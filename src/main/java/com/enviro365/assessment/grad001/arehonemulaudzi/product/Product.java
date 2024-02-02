@@ -29,6 +29,7 @@ public class Product {
     @JoinColumn(name = "investor_id")
     @JsonBackReference
     private Investor investor;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<WithdrawalNotice> withdrawalNotices;
 
 }

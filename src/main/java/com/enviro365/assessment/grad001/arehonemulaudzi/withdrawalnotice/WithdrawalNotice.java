@@ -1,9 +1,7 @@
 package com.enviro365.assessment.grad001.arehonemulaudzi.withdrawalnotice;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.enviro365.assessment.grad001.arehonemulaudzi.product.Product;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +20,8 @@ public class WithdrawalNotice {
     private long id;
     private double withdrawalAmount;
     private LocalDate date = LocalDate.now();
+    @ManyToOne()
+    @JoinColumn(name = "product_id")
+    private Product product;
 
 }

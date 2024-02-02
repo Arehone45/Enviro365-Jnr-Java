@@ -73,6 +73,7 @@ public class InvestorServiceImpl implements InvestorService {
         List<Product> products = productRequest.stream()
                 .map(request -> Product.builder()
                         .productName(request.getProductName())
+                        .productType(request.getProductType())
                         .currentBalance(request.getCurrentBalance())
                         .investor(investor)
                         .build())
@@ -90,6 +91,4 @@ public class InvestorServiceImpl implements InvestorService {
         return investorRepository.findById(investorId)
                 .orElseThrow(() -> new InvestorException("Investor not found"));
     }
-
-
 }
