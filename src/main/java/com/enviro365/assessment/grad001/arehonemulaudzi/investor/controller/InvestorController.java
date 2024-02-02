@@ -6,6 +6,9 @@ import com.enviro365.assessment.grad001.arehonemulaudzi.investor.dto.InvestorRes
 import com.enviro365.assessment.grad001.arehonemulaudzi.investor.service.serviceImpl.InvestorServiceImpl;
 import com.enviro365.assessment.grad001.arehonemulaudzi.product.Product;
 import com.enviro365.assessment.grad001.arehonemulaudzi.product.dto.ProductRequest;
+import com.enviro365.assessment.grad001.arehonemulaudzi.withdrawalnotice.WithdrawalNotice;
+import com.enviro365.assessment.grad001.arehonemulaudzi.withdrawalnotice.dto.WithdrawalNoticeRequest;
+import com.enviro365.assessment.grad001.arehonemulaudzi.withdrawalnotice.service.serviceImpl.WithdrawalNoticeServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +20,7 @@ import java.util.List;
 public class InvestorController {
 
     private final InvestorServiceImpl investorService;
+    private final WithdrawalNoticeServiceImpl withdrawalNoticeService;
 
     @PostMapping("/addInvestor")
     public InvestorResponse addInvestor(@RequestBody InvestorRequest investorRequest) {
@@ -37,5 +41,11 @@ public class InvestorController {
     public Investor addProducts(@RequestBody List<ProductRequest> products , @PathVariable Long investorId) {
 
         return investorService.addProductsToInvestor(products, investorId);
+    }
+
+    @PostMapping("/addWithdrawalNotice/{investorId}")
+    public WithdrawalNotice createWithdrawalNotice(@PathVariable Long investorId, @RequestBody WithdrawalNoticeRequest withdrawalNoticeRequest) {
+
+        return withdrawalNoticeService.createWithdrawalNotice(investorId, withdrawalNoticeRequest);
     }
 }
