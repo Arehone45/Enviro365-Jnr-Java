@@ -28,8 +28,8 @@ public class WithdrawalNotice {
     @JoinColumn(name = "product_id")
     @JsonBackReference
     private Product product;
-//    @OneToOne(mappedBy = "withdrawal_notice", cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private BankingDetails bankingDetails;
+    @OneToOne(mappedBy = "withdrawalNotice", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private BankingDetails bankingDetails;
 
 }

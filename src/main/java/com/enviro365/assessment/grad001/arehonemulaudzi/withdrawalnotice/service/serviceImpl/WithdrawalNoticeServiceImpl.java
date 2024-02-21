@@ -1,5 +1,7 @@
 package com.enviro365.assessment.grad001.arehonemulaudzi.withdrawalnotice.service.serviceImpl;
 
+import com.enviro365.assessment.grad001.arehonemulaudzi.bankingdetails.BankingDetails;
+import com.enviro365.assessment.grad001.arehonemulaudzi.bankingdetails.repository.BankingDetailsRepository;
 import com.enviro365.assessment.grad001.arehonemulaudzi.investor.Investor;
 import com.enviro365.assessment.grad001.arehonemulaudzi.investor.repository.InvestorRepository;
 import com.enviro365.assessment.grad001.arehonemulaudzi.product.Product;
@@ -25,6 +27,7 @@ public class WithdrawalNoticeServiceImpl implements WithdrawalNoticeService {
     private final InvestorRepository investorRepository;
     private final ProductRepository productRepository;
     private final WithdrawalNoticeRepository withdrawalNoticeRepository;
+    private final BankingDetailsRepository bankingDetailsRepository;
 
     @Override
     public WithdrawalNotice createWithdrawalNotice(Long investorId, WithdrawalNoticeRequest withdrawalNoticeRequest) {
@@ -32,9 +35,7 @@ public class WithdrawalNoticeServiceImpl implements WithdrawalNoticeService {
         Investor investor = investorRepository.findById(investorId)
                 .orElseThrow(() -> new RuntimeException("Investor not found"));
 
-
         Product withdrawProduct = productRepository.findByProductName(withdrawalNoticeRequest.getProductName());
-
 
         if (withdrawProduct != null && withdrawProduct.getCurrentBalance() > 0.9*(withdrawalNoticeRequest.getWithdrawalAmount())) {
 
@@ -44,9 +45,12 @@ public class WithdrawalNoticeServiceImpl implements WithdrawalNoticeService {
                         .withdrawalAmount(withdrawalNoticeRequest.getWithdrawalAmount())
                         .date(LocalDate.now())
                         .product(withdrawProduct)
-                        //.bankingDetails(withdrawalNoticeRequest.getBankingDetails())
+                        .bankingDetails(BankingDetails.builder()
+                                .accountHolderName(withdrawalNoticeRequest.getBankingDetails().getAccountHolderName())
+                                .bankName(withdrawalNoticeRequest.getBankingDetails().getBankName())
+                                .accountNumber(withdrawalNoticeRequest.getBankingDetails().getAccountNumber())
+                                .build())
                         .build();
-
 
                 //withdrawalNotice.setProduct(withdrawProduct);
                 withdrawalNotice = withdrawalNoticeRepository.save(withdrawalNotice);
